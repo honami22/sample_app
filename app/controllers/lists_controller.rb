@@ -4,15 +4,16 @@ class ListsController < ApplicationController
      @list = List.new
   end
 
-  # def create
-  #   #1.&2. データを受け取り新規登録するためのインスタント作成
-  #   list = List.new(list_params)
-  #   #3. データをデータベースに保存するためのsaveメソッド実行
-  #   list.save
-  #   #4. トップ画面へリダイレクト
-  #   redirect_to '/top'
-  # end
+  def create
+    #1.&2. データを受け取り新規登録するためのインスタント作成
+    list = List.new(list_params)
+    #3. データをデータベースに保存するためのsaveメソッド実行
+    list.save
+    #4. トップ画面へリダイレクト
+    redirect_to '/top'
+  end
   def index
+    @lists = List.all
   end
 
   def show
@@ -21,9 +22,9 @@ class ListsController < ApplicationController
   def edit
   end
 
-  # private
-  # #　ストロングパラメータ
-  # def list_params
-  #   params.require(:list).permit(:title, :body)
-  # end
+  private
+  #　ストロングパラメータ
+  def list_params
+    params.require(:list).permit(:title, :body)
+  end
 end
