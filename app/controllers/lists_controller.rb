@@ -5,13 +5,24 @@ class ListsController < ApplicationController
   end
 
   def create
-    #1.&2. データを受け取り新規登録するためのインスタント作成
-    list = List.new(list_params)
-    #3. データをデータベースに保存するためのsaveメソッド実行
-    list.save
-    #4. トップ画面へリダイレクト
-    # redirect_to '/top'　削除
-    redirect_to list_path(list.id)
+      @list = List.new(list_params)
+    if @list.save
+      redirect_to list_path(@list.id)
+    else
+      render :new
+    end
+
+
+    flash[:notice] = "投稿が成功しました"
+    # redirect_to list_path(list.id)
+    #   @list = List.new(list_params)
+    # if @list.save
+    #   redirect_to list_path(@list.id)
+    # else
+    #   render :new
+    # end
+
+
   end
   def index
     @lists = List.all
@@ -23,7 +34,12 @@ class ListsController < ApplicationController
   end
 
   def edit
-     @list = List.find(params[:id])
+    @list = List.find(params[:id])
+  end
+  def destroy
+    list = List.find(params[:id])  # データ（レコード）を1件取得
+    list.destroy  # データ（レコード）を削除
+    redirect_to '/lists'  # 投稿一覧画面へリダイレクト
   end
   def update
     list = List.find(params[:id])
